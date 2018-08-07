@@ -79,17 +79,6 @@ static void mqtt_sub_callback(char *topic, int topic_len, void *payload, int pay
         (char *)payload,
         payload_len);
     LOG("----");
-
-#ifdef MQTT_PRESS_TEST
-    sub_counter++;
-    int rc = mqtt_publish(TOPIC_UPDATE, IOTX_MQTT_QOS1, payload, payload_len);
-    if (rc < 0) {
-        LOG("IOT_MQTT_Publish fail, ret=%d", rc);
-    } else {
-        pub_counter++;
-    }
-    LOG("RECV=%d, SEND=%d", sub_counter, pub_counter);
-#endif MQTT_PRESS_TEST
 }
 
 
@@ -116,7 +105,7 @@ static void mqtt_work(void *parms)
 #ifndef MQTT_PRESS_TEST
     else {
         /* Generate topic message */
-        int msg_len = snprintf(msg_pub, sizeof(msg_pub), "{\"attr_name\":\"temperature\", \"attr_value\":\"%d\"}", cnt);
+        int msg_len = snprintf(msg_pub, sizeof(msg_pub), "hello device！%d", cnt);
         if (msg_len < 0) {
             LOG("Error occur! Exit program");
         }
